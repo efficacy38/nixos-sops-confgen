@@ -32,6 +32,31 @@
         go = final."go_1_${toString goVersion}";
       };
 
+      packages = forEachSupportedSystem (
+        { pkgs, ... }:
+        let
+          nixos-sops-confgen = (pkgs.buildGoModule.override { go = pkgs.go; }) {
+            pname = "nixos-sops-confgen";
+            version = "0.1.0";
+
+            src = self;
+
+            # Hash of the Go module dependencies in go.sum.
+            vendorHash = "sha256-WAh4av02nStKRqunXxSyovhlV9DRlspaaVD9MP3Rgik=";
+
+            meta = {
+              description = "Generate .sops.yaml files that are easier to manage in a NixOS workflow";
+              mainProgram = "nixos-sops-confgen";
+              platforms = pkgs.lib.platforms.unix;
+            };
+          };
+        in
+        {
+          inherit nixos-sops-confgen;
+          default = nixos-sops-confgen;
+        }
+      );
+
       devShells = forEachSupportedSystem (
         { pkgs, system }:
         {

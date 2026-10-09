@@ -1,2 +1,6 @@
 .direnv/
 config.yaml
+/nixos-sops-confgen
+/result
+/result-*
+/vendor/
