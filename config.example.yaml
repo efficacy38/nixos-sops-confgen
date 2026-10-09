@@ -1,0 +1,45 @@
+# Example configuration for nixos-sops-confgen.
+#
+# Copy this file to config.yaml (which is gitignored) and replace the
+# placeholder keys with your own, then run:
+#
+#   nixos-sops-confgen render        # show a diff against .sops.yaml
+#   nixos-sops-confgen render -i     # write .sops.yaml
+#
+# Schema:
+#   user.personal_enc_pgp_key  GPG fingerprint that can always decrypt
+#   groups.<name>.path_regex   path pattern the group applies to
+#   hosts.<name>.key           age public key of the host
+#   hosts.<name>.groups        groups the host belongs to
+
+user:
+  personal_enc_pgp_key: ABCDEF0123456789ABCDEF0123456789ABCDEF01
+
+groups:
+  desktop:
+    path_regex: secrets/desktop.yaml
+  common:
+    path_regex: secrets/common.yaml
+  backup:
+    path_regex: secrets/backup.yaml
+  wallpapers:
+    path_regex: secrets/wallpapers/*
+
+hosts:
+  alpha:
+    key: age1exampleexampleexampleexampleexampleexampleexampleexample
+    groups:
+      - desktop
+      - common
+      - wallpapers
+  bravo:
+    key: age1exampleexampleexampleexampleexampleexampleexampleexample
+    groups:
+      - desktop
+      - common
+      - backup
+      - wallpapers
+  charlie:
+    key: age1exampleexampleexampleexampleexampleexampleexampleexample
+    groups:
+      - common
